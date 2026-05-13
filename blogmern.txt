@@ -1,0 +1,64 @@
+﻿ssh azureuser@72.155.88.141
+scp -r "C:\Users\hp\Documents\cc\LP2\blog_mern_app" azureuser@72.155.88.141:/home/azureuser/
+cd blog_mern_app/
+sed -i 's/\r$//' setup.sh or manually using cat setup.sh
+chmod +x setup.sh
+sudo bash setup.sh
+sudo systemctl status nginx.service
+If fail then=>
+        sudo nginx -t
+        nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+        sudo systemctl stop apache2
+         sudo systemctl restart nginx
+        sudo systemctl status nginx (active)
+cd backend
+npm start
+ 
+Working at 5003 (inbound port rule if not allowed)
+
+
+SAME FOR ALL OTHER MERN DEPLOYMENT
+
+
+Manual
+sudo apt-get update -y
+sudo apt-get install -y curl gnupg nginx build-essential
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt-get install -y nodejssudo apt-get install -y nodejs
+sudo apt-get install -y nodejs
+node -v
+npm -v
+curl -fsSL https://www.mongodb.org/static/pgp/server-7.0.asc | \
+sudo gpg --batch --yes -o /usr/share/keyrings/mongodb-server-7.0.gpg --dearmor
+echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-7.0.gpg ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/7.0 multiverse" | \
+sudo tee /etc/apt/sources.list.d/mongodb-org-7.0.list
+sudo apt-get update -y
+sudo apt-get install -y mongodb-org
+sudo systemctl enable --now mongod
+sudo systemctl status mongod
+sudo nano /etc/nginx/sites-available/mern
+server {
+    listen 80;
+    server_name _;
+
+
+    location / {
+        proxy_pass http://127.0.0.1:5003;
+
+
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
+sudo rm -f /etc/nginx/sites-enabled/*
+sudo ln -s /etc/nginx/sites-available/mern /etc/nginx/sites-enabled/
+sudo systemctl restart nginx
+sudo systemctl status nginx
+sudo chown -R azureuser:azureuser backend
+sudo chown -R azureuser:azureuser frontend
+npm install --prefix backend
+npm install --prefix frontend
+npm run build --prefix frontend
+cd backend
+npm start
