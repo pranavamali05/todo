@@ -219,3 +219,69 @@ public class BankAccountSystem {
         System.debug('Customer Deleted Successfully');
     }
 }
+
+
+
+-------------------------------------------------
+Call these on the anonymous window
+
+1) Add Customers
+
+BankAccountSystem.addCustomer(
+    101,
+    'Aditya',
+    'aditya@gmail.com',
+    Date.newInstance(2003, 5, 20),
+    'IT'
+);
+
+BankAccountSystem.addCustomer(
+    102,
+    'Rahul',
+    'rahul@gmail.com',
+    Date.newInstance(2002, 8, 15),
+    'Finance'
+);
+
+BankAccountSystem.addCustomer(
+    103,
+    'Sneha',
+    'sneha@gmail.com',
+    Date.newInstance(2001, 12, 10),
+    'HR'
+);
+
+
+2) View All Customers
+
+BankAccountSystem.viewCustomers();
+
+
+
+3) Update Customer Name
+
+Example: Change Emp ID 101 name to Aditya D
+
+BankAccountSystem.updateCustomer(
+    101,
+    'Aditya D'
+);
+
+
+
+4) View Customers Again
+
+BankAccountSystem.viewCustomers();
+
+
+5) Delete Customer
+
+Example: Delete employee with Emp ID 102
+
+BankAccountSystem.deleteCustomer(102);
+
+
+
+6) Final View
+
+BankAccountSystem.viewCustomers();
