@@ -1,0 +1,83 @@
+﻿public class SendEmailWithout {
+
+
+    public static void sendSimpleEmail() {
+
+
+        // Create email object
+        Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
+
+
+        // Set recipient email
+        mail.setToAddresses(new String[] {'pranavamali05work@gmail.com'});
+
+
+        // Set subject
+        mail.setSubject('Test Email from Apex');
+
+
+        // Set email body
+        mail.setPlainTextBody('Hello,\n\nThis is a test email sent using Apex.\n\nThank You!');
+
+
+        // Send email
+        Messaging.sendEmail(new Messaging.SingleEmailMessage[] { mail });
+
+
+        System.debug('Email Sent Successfully!');
+    }
+}
+
+
+public class SendEmailWith {
+
+
+    public static void sendEmailWithAttachment() {
+
+
+        // Create email object
+        Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
+
+
+        // Set recipient email
+        mail.setToAddresses(new String[] {'recipient@example.com'});
+
+
+        // Set subject
+        mail.setSubject('Apex Email with Multi-line Attachment');
+
+
+        // Set email body
+        mail.setPlainTextBody('Hello,\n\nPlease find the multi-line attachment.\n\nThank You!');
+
+
+        // Create attachment
+        Messaging.EmailFileAttachment attachment = new Messaging.EmailFileAttachment();
+
+
+        // Multi-line content using \n
+        String content = 'Hello,\n' +
+                         'This is a sample attachment file.\n' +
+                         'It contains multiple lines of text.\n\n' +
+                         'Line 4: Apex is powerful.\n' +
+                         'Line 5: Email sent successfully.\n\n' +
+                         'Regards,\nSalesforce';
+
+
+        // Set attachment details
+        attachment.setFileName('MultiLineSample.txt');
+        attachment.setBody(Blob.valueOf(content));
+        attachment.setContentType('text/plain');
+
+
+        // Attach file to email
+        mail.setFileAttachments(new Messaging.EmailFileAttachment[] { attachment });
+
+
+        // Send email
+        Messaging.sendEmail(new Messaging.SingleEmailMessage[] { mail });
+
+
+        System.debug('Email with Multi-line Attachment Sent Successfully!');
+    }
+}

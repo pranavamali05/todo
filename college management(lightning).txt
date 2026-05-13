@@ -1,0 +1,672 @@
+﻿========================================
+COLLEGE MANAGEMENT LIGHTNING APPLICATION
+========================================
+
+
+This Application Manages:
+
+
+1) Student Records
+2) Faculty Records
+
+
+Using:
+✔ Custom Objects
+✔ Validation Rules
+✔ Lightning Application
+
+
+
+
+==================================================
+STEP 1 : CREATE STUDENT CUSTOM OBJECT
+==================================================
+
+
+Setup → Object Manager → Create → Custom Object
+
+
+Label            : Student
+Plural Label     : Students
+Object Name      : Student
+Record Name      : Student Name
+
+
+Save
+
+
+
+
+==================================================
+STEP 2 : CREATE STUDENT FIELDS
+==================================================
+
+
+Inside Student Object:
+
+
+Fields & Relationships → New
+
+
+
+
+-----------------------------------
+1) Roll Number
+-----------------------------------
+
+
+Data Type  : Number
+Field Label: Roll Number
+Length     : 10
+
+
+Save
+
+
+
+
+-----------------------------------
+2) Marks
+-----------------------------------
+
+
+Data Type  : Number
+Field Label: Marks
+Length     : 3
+Decimal Places : 0
+
+
+Save
+
+
+
+
+-----------------------------------
+3) Email
+-----------------------------------
+
+
+Data Type  : Email
+Field Label: Email
+
+
+Save
+
+
+
+
+==================================================
+STEP 3 : STUDENT VALIDATION RULES
+==================================================
+
+
+Student Object → Validation Rules → New
+
+
+
+
+===================================
+A) MARKS VALIDATION
+===================================
+
+
+Rule Name:
+Marks_Validation
+
+
+Formula:
+
+
+OR(
+   Marks__c < 0,
+   Marks__c > 100
+)
+
+
+Error Message:
+
+
+Marks should be between 0 and 100
+
+
+Save
+
+
+
+
+===================================
+B) ROLL NUMBER VALIDATION
+===================================
+
+
+Rule Name:
+Roll_Number_Validation
+
+
+Formula:
+
+
+Roll_Number__c <= 0
+
+
+Error Message:
+
+
+Roll Number must be greater than 0
+
+
+Save
+
+
+
+
+===================================
+C) STUDENT NAME VALIDATION
+===================================
+
+
+Rule Name:
+Student_Name_Validation
+
+
+Formula:
+
+
+ISBLANK(Name)
+
+
+Error Message:
+
+
+Student Name cannot be blank
+
+
+Save
+
+
+
+
+===================================
+D) EMAIL VALIDATION
+===================================
+
+
+Rule Name:
+Student_Email_Validation
+
+
+Formula:
+
+
+NOT(CONTAINS(Email__c,"@"))
+
+
+Error Message:
+
+
+Email must contain @ symbol
+
+
+Save
+
+
+
+
+==================================================
+STEP 4 : CREATE FACULTY CUSTOM OBJECT
+==================================================
+
+
+Setup → Object Manager → Create → Custom Object
+
+
+Label            : Faculty
+Plural Label     : Faculties
+Object Name      : Faculty
+Record Name      : Faculty Name
+
+
+Save
+
+
+
+
+==================================================
+STEP 5 : CREATE FACULTY FIELDS
+==================================================
+
+
+Inside Faculty Object:
+
+
+Fields & Relationships → New
+
+
+
+
+-----------------------------------
+1) Faculty ID
+-----------------------------------
+
+
+Data Type  : Number
+Field Label: Faculty ID
+Length     : 10
+
+
+Save
+
+
+
+
+-----------------------------------
+2) Salary
+-----------------------------------
+
+
+Data Type  : Currency
+Field Label: Salary
+
+
+Save
+
+
+
+
+-----------------------------------
+3) Email
+-----------------------------------
+
+
+Data Type  : Email
+Field Label: Email
+
+
+Save
+
+
+
+
+-----------------------------------
+4) Department
+-----------------------------------
+
+
+Data Type  : Picklist
+Field Label: Department
+
+
+Values:
+
+
+Computer
+Mechanical
+Civil
+Electronics
+IT
+
+
+Save
+
+
+
+
+-----------------------------------
+5) Joining Date
+-----------------------------------
+
+
+Data Type  : Date
+Field Label: Joining Date
+
+
+Save
+
+
+
+
+==================================================
+STEP 6 : MAKE FACULTY ID UNIQUE
+==================================================
+
+
+Faculty_ID__c → Edit
+
+
+Check:
+☑ Unique
+
+
+Save
+
+
+
+
+==================================================
+STEP 7 : FACULTY VALIDATION RULES
+==================================================
+
+
+Faculty Object → Validation Rules → New
+
+
+
+
+===================================
+A) FACULTY NAME VALIDATION
+===================================
+
+
+Rule Name:
+Faculty_Name_Validation
+
+
+Formula:
+
+
+LEN(Name) < 3
+
+
+Error Message:
+
+
+Faculty Name must contain at least 3 characters
+
+
+Save
+
+
+
+
+===================================
+B) FACULTY ID VALIDATION
+===================================
+
+
+Rule Name:
+Faculty_ID_Validation
+
+
+Formula:
+
+
+Faculty_ID__c <= 0
+
+
+Error Message:
+
+
+Faculty ID must be greater than 0
+
+
+Save
+
+
+
+
+===================================
+C) SALARY VALIDATION
+===================================
+
+
+Rule Name:
+Salary_Validation
+
+
+Formula:
+
+
+OR(
+   Salary__c <= 10000,
+   Salary__c >= 500000
+)
+
+
+Error Message:
+
+
+Salary must be between 10,000 and 500,000
+
+
+Save
+
+
+
+
+===================================
+D) FACULTY EMAIL VALIDATION
+===================================
+
+
+Rule Name:
+Faculty_Email_Validation
+
+
+Formula:
+
+
+NOT(CONTAINS(Email__c,"@"))
+
+
+Error Message:
+
+
+Email must contain @ symbol
+
+
+Save
+
+
+
+
+===================================
+E) DEPARTMENT VALIDATION
+===================================
+
+
+Rule Name:
+Department_Validation
+
+
+Formula:
+
+
+ISBLANK(TEXT(Department__c))
+
+
+Error Message:
+
+
+Please select department
+
+
+Save
+
+
+
+
+===================================
+F) JOINING DATE VALIDATION
+===================================
+
+
+Rule Name:
+Joining_Date_Validation
+
+
+Formula:
+
+
+Joining_Date__c > TODAY()
+
+
+Error Message:
+
+
+Joining Date cannot be future date
+
+
+Save
+
+
+
+
+==================================================
+STEP 8 : CREATE TABS
+==================================================
+
+
+Setup → Tabs → New
+
+
+Create:
+
+
+1) Student Tab
+2) Faculty Tab
+
+
+
+
+==================================================
+STEP 9 : CREATE LIGHTNING APP
+==================================================
+
+
+Setup → App Manager → New Lightning App
+
+
+App Name:
+
+
+College Management System
+
+
+Next
+Next
+Next
+
+
+
+
+==================================================
+STEP 10 : ADD NAVIGATION ITEMS
+==================================================
+
+
+Add:
+
+
+Students
+Faculties
+
+
+to Selected Items
+
+
+Next
+
+
+
+
+==================================================
+STEP 11 : ASSIGN PROFILE
+==================================================
+
+
+Select:
+
+
+System Administrator
+
+
+Next → Save & Finish
+
+
+
+
+==================================================
+STEP 12 : OPEN APPLICATION
+==================================================
+
+
+Click:
+
+
+App Launcher (9 dots)
+
+
+Search:
+
+
+College Management System
+
+
+Open App
+
+
+
+
+==================================================
+STEP 13 : USE APPLICATION
+==================================================
+
+
+Use:
+
+
+Students Tab → New
+Faculties Tab → New
+
+
+to add records.
+
+
+
+
+==================================================
+VALIDATIONS INCLUDED
+==================================================
+
+
+STUDENT VALIDATIONS
+-------------------
+
+
+✔ Marks between 0 and 100
+
+
+✔ Roll Number greater than 0
+
+
+✔ Student Name cannot be blank
+
+
+✔ Email must contain @
+
+
+
+
+FACULTY VALIDATIONS
+-------------------
+
+
+✔ Faculty Name minimum 3 characters
+
+
+✔ Faculty ID greater than 0
+
+
+✔ Faculty ID unique
+
+
+✔ Salary between 10,000 and 500,000
+
+
+✔ Department mandatory
+
+
+✔ Joining Date cannot be future date
+
+
+✔ Email must contain @
