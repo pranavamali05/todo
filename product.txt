@@ -1,0 +1,383 @@
+﻿==================================================
+PRODUCT INVENTORY MANAGEMENT SYSTEM
+(Using Apex + Visualforce)
+==================================================
+
+
+This application manages:
+
+
+✔ Product Name
+✔ Serial Number
+✔ Manufacture Date
+✔ Expiry Date
+
+
+Features:
+✔ Add Product
+✔ Display Products
+✔ Store Records in Salesforce
+
+
+
+
+==================================================
+STEP 1 : CREATE CUSTOM OBJECT
+==================================================
+
+
+Setup → Object Manager → Create → Custom Object
+
+
+Label            : Product Inventory
+Plural Label     : Product Inventories
+Object Name      : Product_Inventory
+Record Name      : Product Record
+
+
+Save
+
+
+
+
+==================================================
+STEP 2 : CREATE CUSTOM FIELDS
+==================================================
+
+
+Inside Product Inventory Object:
+
+
+Fields & Relationships → New
+
+
+
+
+-----------------------------------
+1) Product Name
+-----------------------------------
+
+
+Data Type  : Text
+Field Label: Product Name
+Length     : 100
+
+
+Save
+
+
+
+
+-----------------------------------
+2) Serial Number
+-----------------------------------
+
+
+Data Type  : Number
+Field Label: Serial No
+Length     : 10
+
+
+Save
+
+
+
+
+-----------------------------------
+3) Manufacture Date
+-----------------------------------
+
+
+Data Type  : Date
+Field Label: Manufacture Date
+
+
+Save
+
+
+
+
+-----------------------------------
+4) Expiry Date
+-----------------------------------
+
+
+Data Type  : Date
+Field Label: Expiry Date
+
+
+Save
+
+
+
+
+==================================================
+STEP 3 : CREATE APEX CLASS
+==================================================
+
+
+Setup → Apex Classes → New
+
+
+Class Name:
+
+
+ProductInventoryController
+
+
+Paste Code:
+
+
+--------------------------------------------------
+
+
+public class ProductInventoryController {
+
+
+    // Product Object
+    public Product_Inventory__c prod {get; set;}
+
+
+    // Product List
+    public List<Product_Inventory__c> prodList {get; set;}
+
+
+    // Constructor
+    public ProductInventoryController() {
+
+
+        prod = new Product_Inventory__c();
+
+
+        loadProducts();
+    }
+
+
+    // Save Product
+    public void saveProduct() {
+
+
+        insert prod;
+
+
+        ApexPages.addMessage(
+
+
+            new ApexPages.Message(
+                ApexPages.Severity.CONFIRM,
+                'Product Added Successfully'
+            )
+        );
+
+
+        prod = new Product_Inventory__c();
+
+
+        loadProducts();
+    }
+
+
+    // Load Products
+    public void loadProducts() {
+
+
+        prodList = [
+
+
+            SELECT Id,
+                   Product_Name__c,
+                   Serial_No__c,
+                   Manufacture_Date__c,
+                   Expiry_Date__c
+            FROM Product_Inventory__c
+        ];
+    }
+}
+
+
+--------------------------------------------------
+
+
+
+
+==================================================
+STEP 4 : CREATE VISUALFORCE PAGE
+==================================================
+
+
+Setup → Visualforce Pages → New
+
+
+Page Name:
+
+
+ProductInventoryPage
+
+
+Paste Code:
+
+
+--------------------------------------------------
+
+
+<apex:page controller="ProductInventoryController">
+
+
+    <apex:form>
+
+
+        <apex:pageMessages />
+
+
+        <apex:pageBlock title="Product Inventory System">
+
+
+            <apex:pageBlockSection columns="2">
+
+
+                <apex:inputText
+                    value="{!prod.Product_Name__c}"
+                    label="Product Name"/>
+
+
+                <apex:inputText
+                    value="{!prod.Serial_No__c}"
+                    label="Serial No"/>
+
+
+                <apex:inputText
+                    value="{!prod.Manufacture_Date__c}"
+                    label="Manufacture Date"/>
+
+
+                <apex:inputText
+                    value="{!prod.Expiry_Date__c}"
+                    label="Expiry Date"/>
+
+
+            </apex:pageBlockSection>
+
+
+            <apex:pageBlockButtons>
+
+
+                <apex:commandButton
+                    value="Save Product"
+                    action="{!saveProduct}"/>
+
+
+            </apex:pageBlockButtons>
+
+
+        </apex:pageBlock>
+
+
+
+
+        <!-- PRODUCT TABLE -->
+
+
+        <apex:pageBlock title="Product Records">
+
+
+            <apex:pageBlockTable
+                value="{!prodList}"
+                var="p">
+
+
+                <apex:column
+                    value="{!p.Product_Name__c}"
+                    headerValue="Product Name"/>
+
+
+                <apex:column
+                    value="{!p.Serial_No__c}"
+                    headerValue="Serial No"/>
+
+
+                <apex:column
+                    value="{!p.Manufacture_Date__c}"
+                    headerValue="Manufacture Date"/>
+
+
+                <apex:column
+                    value="{!p.Expiry_Date__c}"
+                    headerValue="Expiry Date"/>
+
+
+            </apex:pageBlockTable>
+
+
+        </apex:pageBlock>
+
+
+    </apex:form>
+
+
+</apex:page>
+
+
+--------------------------------------------------
+
+
+
+
+==================================================
+STEP 5 : SAVE BOTH FILES
+==================================================
+
+
+1) Save Apex Class
+2) Save Visualforce Page
+
+
+
+
+==================================================
+STEP 6 : RUN APPLICATION
+==================================================
+
+
+Click:
+Preview
+
+
+OR open:
+
+
+/apex/ProductInventoryPage
+
+
+
+
+==================================================
+OUTPUT
+==================================================
+
+
+✔ Product Entry Form
+
+
+✔ Save Product Records
+
+
+✔ Display Product Inventory Table
+
+
+✔ Data Stored in Salesforce
+
+
+
+
+==================================================
+CONCEPTS USED
+==================================================
+
+
+✔ Custom Object
+✔ Apex Controller
+✔ Visualforce Page
+✔ SOQL
+✔ DML Insert
+✔ Salesforce Database
+✔ CRUD Operations

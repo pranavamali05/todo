@@ -1,0 +1,221 @@
+﻿==================================================
+STEP : CREATE CUSTOM OBJECT
+==================================================
+
+
+Label            : Bank
+Plural Label     : Banks
+Object Name      : Bank
+Record Name      : Bank Record
+
+
+
+
+==================================================
+STEP : CREATE CUSTOM FIELDS
+==================================================
+
+
+Inside Bank Object:
+
+
+Fields & Relationships → New
+
+
+
+
+-----------------------------------
+1) Emp ID
+-----------------------------------
+
+
+Data Type  : Number
+Field Label: Emp ID
+Length     : 10
+
+
+
+
+-----------------------------------
+2) Name
+-----------------------------------
+
+
+Data Type  : Text
+Field Label: Name
+Length     : 50
+
+
+
+
+-----------------------------------
+3) Email
+-----------------------------------
+
+
+Data Type  : Email
+Field Label: Email
+
+
+
+
+-----------------------------------
+4) Birth Date
+-----------------------------------
+
+
+Data Type  : Date
+Field Label: Birth Date
+
+
+
+
+-----------------------------------
+5) Department
+-----------------------------------
+
+
+Data Type  : Picklist
+Field Label: Department
+
+
+Values:
+
+
+HR
+IT
+Finance
+Sales
+Marketing
+
+
+
+
+==================================================
+API NAMES USED IN CODE
+==================================================
+
+
+Emp_ID__c
+Name__c
+Email__c
+Birth_Date__c
+Department__c
+
+
+public class BankAccountSystem {
+
+
+    // ADD CUSTOMER
+    public static void addCustomer(
+        Integer empId,
+        String empName,
+        String email,
+        Date birthDate,
+        String department
+    ) {
+
+
+        Bank__c b = new Bank__c();
+
+
+        b.Emp_ID__c = empId;
+        b.Name__c = empName;
+        b.Email__c = email;
+        b.Birth_Date__c = birthDate;
+        b.Department__c = department;
+
+
+        insert b;
+
+
+        System.debug('Customer Added Successfully');
+    }
+
+
+
+
+    // VIEW CUSTOMERS
+    public static void viewCustomers() {
+
+
+        List<Bank__c> bankList = [
+
+
+            SELECT Id,
+                   Name__c,
+                   Emp_ID__c,
+                   Email__c,
+                   Birth_Date__c,
+                   Department__c
+            FROM Bank__c
+        ];
+
+
+        for(Bank__c b : bankList) {
+
+
+            System.debug(
+                'Emp ID : ' + b.Emp_ID__c +
+                ' | Name : ' + b.Name__c +
+                ' | Email : ' + b.Email__c +
+                ' | Birth Date : ' + b.Birth_Date__c +
+                ' | Department : ' + b.Department__c
+            );
+        }
+    }
+
+
+
+
+    // UPDATE CUSTOMER
+    public static void updateCustomer(
+        Integer empId,
+        String newName
+    ) {
+
+
+        Bank__c b = [
+
+
+            SELECT Id, Name__c
+            FROM Bank__c
+            WHERE Emp_ID__c = :empId
+            LIMIT 1
+        ];
+
+
+        b.Name__c = newName;
+
+
+        update b;
+
+
+        System.debug('Customer Updated Successfully');
+    }
+
+
+
+
+    // DELETE CUSTOMER
+    public static void deleteCustomer(
+        Integer empId
+    ) {
+
+
+        Bank__c b = [
+
+
+            SELECT Id
+            FROM Bank__c
+            WHERE Emp_ID__c = :empId
+            LIMIT 1
+        ];
+
+
+        delete b;
+
+
+        System.debug('Customer Deleted Successfully');
+    }
+}

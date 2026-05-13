@@ -1,0 +1,27 @@
+﻿Vm1 public ip 4.230.17.249
+Private ip 10.0.0.4
+Vm2 public ip 4.82.145.151
+Private ip 10.0.0.5
+
+
+ ssh -i test.pem azureuser@4.230.17.249
+ ping 10.0.0.5
+ ssh -i myvm2_key.pem azureuser@10.0.0.5
+Warning: Identity file myvm2_key.pem not accessible: No such file or directory
+scp -i test.pem myvm2_key.pem azureuser@4.230.17.249:/home/azureuser
+ssh -i myvm2_key.pem azureuser@10.0.0.5
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@         WARNING: UNPROTECTED PRIVATE KEY FILE!          @
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+chmod 400 myvm2_key.pem
+ssh -i myvm2_key.pem azureuser@10.0.0.5
+Welcome to Ubuntu 24.04.4 LTS (GNU/Linux 6.17.0-1013-azure x86_64)
+echo "Secure File Sharing Between Cloud Instances" > test.txt
+azureuser@myvm:~$ cat test.txt
+Secure File Sharing Between Cloud Instances
+ scp -i myvm2_key.pem test.txt azureuser@10.0.0.5:/home/azureuser/
+ssh -i myvm2_key.pem azureuser@10.0.0.5
+ ls
+test.txt
+azureuser@myvm2:~$ cat test.txt
+Secure File Sharing Between Cloud Instances

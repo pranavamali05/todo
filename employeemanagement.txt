@@ -1,0 +1,403 @@
+﻿==================================================
+MENU DRIVEN EMPLOYEE MANAGEMENT SYSTEM
+(Console Based using Apex)
+==================================================
+
+
+This program manages Employee records:
+
+
+✔ Emp ID
+✔ Emp Name
+✔ Email
+✔ Birth Date
+✔ Department
+
+
+Operations:
+1) Add Employee
+2) View Employees
+3) Update Employee
+4) Delete Employee
+
+
+
+
+==================================================
+STEP 1 : CREATE CUSTOM OBJECT
+==================================================
+
+
+Setup → Object Manager → Create → Custom Object
+
+
+Label            : Employee
+Plural Label     : Employees
+Object Name      : Employee
+Record Name      : Employee Record
+
+
+Save
+
+
+
+
+==================================================
+STEP 2 : CREATE CUSTOM FIELDS
+==================================================
+
+
+Inside Employee Object:
+
+
+Fields & Relationships → New
+
+
+
+
+-----------------------------------
+1) Emp ID
+-----------------------------------
+
+
+Data Type  : Number
+Field Label: Emp ID
+Length     : 10
+
+
+Save
+
+
+
+
+-----------------------------------
+2) Emp Name
+-----------------------------------
+
+
+Data Type  : Text
+Field Label: Emp Name
+Length     : 50
+
+
+Save
+
+
+
+
+-----------------------------------
+3) Email
+-----------------------------------
+
+
+Data Type  : Email
+Field Label: Email
+
+
+Save
+
+
+
+
+-----------------------------------
+4) Birth Date
+-----------------------------------
+
+
+Data Type  : Date
+Field Label: Birth Date
+
+
+Save
+
+
+
+
+-----------------------------------
+5) Department
+-----------------------------------
+
+
+Data Type  : Picklist
+Field Label: Department
+
+
+Values:
+
+
+HR
+IT
+Finance
+Sales
+Marketing
+
+
+Save
+
+
+
+
+==================================================
+STEP 3 : MAKE EMP ID UNIQUE
+==================================================
+
+
+Emp_ID__c → Edit
+
+
+Check:
+☑ Unique
+
+
+Save
+
+
+
+
+==================================================
+STEP 4 : CREATE APEX CLASS
+==================================================
+
+
+Setup → Apex Classes → New
+
+
+Class Name:
+EmployeeManagementSystem
+
+
+Paste Code:
+
+
+--------------------------------------------------
+
+
+public class EmployeeManagementSystem {
+
+
+    // ADD EMPLOYEE
+    public static void addEmployee(
+        Integer empId,
+        String empName,
+        String email,
+        Date birthDate,
+        String department
+    ) {
+
+
+        Employee__c e = new Employee__c();
+
+
+        e.Emp_ID__c = empId;
+        e.Emp_Name__c = empName;
+        e.Email__c = email;
+        e.Birth_Date__c = birthDate;
+        e.Department__c = department;
+
+
+        insert e;
+
+
+        System.debug('Employee Added Successfully');
+    }
+
+
+
+
+    // VIEW EMPLOYEES
+    public static void viewEmployees() {
+
+
+        List<Employee__c> empList = [
+
+
+            SELECT Id,
+                   Emp_ID__c,
+                   Emp_Name__c,
+                   Email__c,
+                   Birth_Date__c,
+                   Department__c
+            FROM Employee__c
+        ];
+
+
+        for(Employee__c e : empList) {
+
+
+            System.debug(
+
+
+                'Emp ID : ' + e.Emp_ID__c +
+                ' | Name : ' + e.Emp_Name__c +
+                ' | Email : ' + e.Email__c +
+                ' | Birth Date : ' + e.Birth_Date__c +
+                ' | Department : ' + e.Department__c
+            );
+        }
+    }
+
+
+
+
+    // UPDATE EMPLOYEE
+    public static void updateEmployee(
+        Integer empId,
+        String newName
+    ) {
+
+
+        Employee__c e = [
+
+
+            SELECT Id, Emp_Name__c
+            FROM Employee__c
+            WHERE Emp_ID__c = :empId
+            LIMIT 1
+        ];
+
+
+        e.Emp_Name__c = newName;
+
+
+        update e;
+
+
+        System.debug('Employee Updated Successfully');
+    }
+
+
+
+
+    // DELETE EMPLOYEE
+    public static void deleteEmployee(
+        Integer empId
+    ) {
+
+
+        Employee__c e = [
+
+
+            SELECT Id
+            FROM Employee__c
+            WHERE Emp_ID__c = :empId
+            LIMIT 1
+        ];
+
+
+        delete e;
+
+
+        System.debug('Employee Deleted Successfully');
+    }
+}
+
+
+--------------------------------------------------
+
+
+
+
+==================================================
+STEP 5 : OPEN EXECUTE ANONYMOUS WINDOW
+==================================================
+
+
+Developer Console
+→ Debug
+→ Open Execute Anonymous Window
+
+
+Shortcut:
+Ctrl + E
+
+
+
+
+==================================================
+STEP 6 : EXECUTE ANONYMOUS CODE
+==================================================
+
+
+Paste:
+
+
+--------------------------------------------------
+
+
+// ADD EMPLOYEE
+EmployeeManagementSystem.addEmployee(
+    101,
+    'Rahul Sharma',
+    'rahul@gmail.com',
+    Date.newInstance(2000,5,10),
+    'IT'
+);
+
+
+
+
+// VIEW EMPLOYEES
+EmployeeManagementSystem.viewEmployees();
+
+
+
+
+// UPDATE EMPLOYEE
+EmployeeManagementSystem.updateEmployee(
+    101,
+    'Rahul Verma'
+);
+
+
+
+
+// DELETE EMPLOYEE
+EmployeeManagementSystem.deleteEmployee(101);
+
+
+--------------------------------------------------
+
+
+
+
+==================================================
+STEP 7 : EXECUTE
+==================================================
+
+
+Click:
+Execute
+
+
+
+
+==================================================
+OUTPUT
+==================================================
+
+
+✔ Employee Added Successfully
+
+
+✔ Employee Records Displayed
+
+
+✔ Employee Updated Successfully
+
+
+✔ Employee Deleted Successfully
+
+
+
+
+==================================================
+CONCEPTS USED
+==================================================
+
+
+✔ Custom Objects
+✔ Apex Classes
+✔ SOQL
+✔ DML Operations
+✔ Execute Anonymous Window
+✔ Console Based CRUD Operations

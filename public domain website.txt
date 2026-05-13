@@ -1,0 +1,21 @@
+﻿ssh azureuser@72.155.88.141
+
+ sudo apt update
+sudo apt install apache2 -y
+sudo systemctl start apache2
+sudo systemctl enable apache2
+sudo systemctl status apache2
+cd /var/www/html
+sudo rm index.html
+sudo nano index.html
+Step 4: Add HTML Code
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Azure Website</title>
+</head>
+<body>
+    <h1>Welcome to My Cloud Website 🚀</h1>
+    <p>Static website deployed on Azure VM</p>
+</body>
+</html>
